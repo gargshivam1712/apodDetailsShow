@@ -1,0 +1,20 @@
+Below is the description of the task:
+
+Create an app similar to https://apod.nasa.gov/apod/astropix.html .
+This website shows APOD(Astronomy Picture of the Day) for a selected day.
+By default the app will show today's APOD.
+
+When APOD is requested then do the following steps:
+1. Check DB if data is already there for the selected date, then show the information directly from the DB.
+2. If data for the selected day is not present in the DB then Get details from the NASA API (https://api.nasa.gov/)
+3. Download images (if present) into a website folder. (Note: Some days only have a youtube link. e.g. https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&date=2021-06-23)
+4. Save all APOD details into the DB.
+5. Show the info from the DB.
+
+So if info is missing for a given day in DB app should hit NASA api only once & save.
+Same way image url should hit once by app to download & save. later serve directly from the app
+
+functionality : 
+1. use cache in front and backend side both
+2. use cron jobs for automatic call so that i will save images daily 
+3. use mongodb for storing details
