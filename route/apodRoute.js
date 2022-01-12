@@ -11,7 +11,6 @@ apodRoute.get('/images/:imagename',(req,res)=>{
 })
 
 apodRoute.get('/' , async (req,res)=>{
-    console.log(req.query , "query")
     try 
     {
       let date = req.query.date
@@ -20,10 +19,14 @@ apodRoute.get('/' , async (req,res)=>{
         let todayDate = new Date()
         date = `${todayDate.getFullYear()}-${(todayDate.getMonth()+1)>9 ? (todayDate.getMonth()+1) : '0'+(todayDate.getMonth()+1).toString()}-${todayDate.getDate()>9 ? todayDate.getDate() : '0'+todayDate.getDate().toString()}`
       }
+
+      // get data from server cache 
       let cacheData = myCache.get(date)
       if(cacheData == undefined)
       {
         console.log("data" , date , "cachemiss")
+
+        // get data from database
         const data = await apodModel.findOne({date : date})
         if(data)
         {
@@ -32,12 +35,14 @@ apodRoute.get('/' , async (req,res)=>{
         }
         else
         {
+            // get data from nasa api
             const data = await getAPODByDate(date)
             if(data.media_type == "image")
             {
               let pathArrray = data.url.split('/')
               let imageName = pathArrray[pathArrray.length-1].toString()
-              console.log("image path" , imageName)
+          
+              // downlaod image in images folder
               downloadImage(data.url , imageName)
               .then(()=>{
                 data.url = process.env.DOMAIN_URL + '/api/apodRoute/images/' + imageName

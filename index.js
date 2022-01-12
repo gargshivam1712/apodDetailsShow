@@ -26,5 +26,5 @@ if(process.env.NODE_ENV=="production"){
 
 app.use('/api/apodRoute' , apodRoute)
 
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT
 server.listen(PORT , ()=>console.log(`Server has been started on port ${PORT}`))
