@@ -7,7 +7,7 @@ const path = require('path')
 const dbConnection = require('./model/connection')
 const apodRoute = require('./route/apodRoute')
 const job = require('./automation/schedule')
-const {apodAPITask} = require('./automation/task')
+const fs = require('fs')
 
 app.use(bodyParser.json())
 
@@ -22,6 +22,10 @@ if(process.env.NODE_ENV=="production"){
     app.get("/",(req,res)=>{
         res.sendFile(path.resolve(__dirname,'client','build','index.html'))
     })
+}
+
+if (!fs.existsSync('./images')){
+    fs.mkdirSync('./images');
 }
 
 app.use('/api/apodRoute' , apodRoute)
