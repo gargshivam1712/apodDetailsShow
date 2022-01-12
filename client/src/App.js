@@ -18,16 +18,7 @@ export default class App extends Component {
   componentDidMount()
   {
     apodAPI.then(res=>{
-        if(res.media_type == "image")
-        {
-          let pathArrray = res.url.split('/')
-          let imageURL = "http://localhost:8080/api/apodRoute/images/"+pathArrray[pathArrray.length-1].toString()
-          this.setState({url : imageURL , title : res.title , explanation : res.explanation , type : res.media_type})
-        }
-        else
-        {
-          this.setState({url : res.url , title : res.title , explanation : res.explanation , type : res.media_type})
-        }
+        this.setState({url : res.url , title : res.title , explanation : res.explanation , type : res.media_type})
       })
       .catch(err=>console.log(err))
   }
@@ -35,16 +26,7 @@ export default class App extends Component {
   onChange = (event)=>{
     apodAPIByDate(event.target.value).then(res=>
       {
-        if(res.media_type == "image")
-        {
-          let pathArrray = res.url.split('/')
-          let imageURL = "http://localhost:8080/api/apodRoute/images/"+pathArrray[pathArrray.length-1].toString()
-          this.setState({url : imageURL , title : res.title , explanation : res.explanation , type : res.media_type})
-        }
-        else
-        {
-          this.setState({url : res.url , title : res.title , explanation : res.explanation , type : res.media_type})
-        }
+        this.setState({url : res.url , title : res.title , explanation : res.explanation , type : res.media_type})
       }
     )
     .catch(err=>console.log("error",err))
@@ -52,7 +34,6 @@ export default class App extends Component {
 
   render() {
     console.log("rendser",this.state)
-    let imageURL = this.state.url
     let todayDate = new Date()           
     todayDate = `${todayDate.getFullYear()}-${(todayDate.getMonth()+1)>9 ? (todayDate.getMonth()+1) : '0'+(todayDate.getMonth()+1).toString()}-${todayDate.getDate()>9 ? todayDate.getDate() : '0'+todayDate.getDate().toString()}`
     return (
@@ -67,7 +48,7 @@ export default class App extends Component {
         </div>
         <div className='row'>
           <div className='col-12'>
-            {this.state.type == "image" ? <img src={imageURL} width="100%" height = "100%" /> : 
+            {this.state.type == "image" ? <img src={this.state.url} width="100%" height = "100%" /> : 
             <div className="embed-responsive embed-responsive-16by9">
             <iframe width="100%" height='550px' className="embed-responsive-item" src={this.state.url}></iframe>
             </div>}

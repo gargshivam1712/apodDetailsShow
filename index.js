@@ -7,6 +7,7 @@ const path = require('path')
 const dbConnection = require('./model/connection')
 const apodRoute = require('./route/apodRoute')
 const job = require('./automation/schedule')
+const {apodAPITask} = require('./automation/task')
 
 app.use(bodyParser.json())
 

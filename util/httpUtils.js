@@ -1,4 +1,6 @@
 var axios = require('axios');
+const path = require('path')
+const fs = require('fs')
 
 const getAPODByDate = async (date)=>{
     try {
@@ -34,4 +36,28 @@ const getAPODToday = async ()=>{
     }
 }
 
-module.exports = { getAPODByDate , getAPODToday}
+const downloadImage = async (url,filename)=>{
+    console.log("downlaod start")
+    let res  = await axios({
+      method : 'GET' ,
+      url : url ,
+      responseType : 'stream'
+    })
+  
+    const imagePath = path.resolve(__dirname , '../images' , filename)
+  
+    res.data.pipe(fs.createWriteStream(imagePath))
+  
+    return new Promise((resolve , rejects)=>{
+      res.data.on('end' , ()=>{
+        console.log("dowload complete")
+        resolve()
+      })
+  
+      res.data.on('error' , (err)=>{
+        rejects(err)
+      })
+    })
+  }
+
+module.exports = { getAPODByDate , getAPODToday , downloadImage}

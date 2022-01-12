@@ -1,12 +1,12 @@
 var axios = require('axios');
 
-const  apodAPITask = ()=>{
-    let todayDate = new Date()
-    todayDate = `${todayDate.getFullYear()}-${(todayDate.getMonth()+1)>9 ? (todayDate.getMonth()+1) : '0'+(todayDate.getMonth()+1).toString()}-${todayDate.getDate()>9 ? todayDate.getDate() : '0'+todayDate.getDate().toString()}`
-    console.log("today date" , todayDate)
+const apodAPITask = ()=>{
+  
+    console.log("jo start")
+    
     var config = {
         method: 'get',
-        url: 'localhost:8080/api/apodRoute/images/M51Bfield_Sofia_960.jpg',
+        url: process.env.DOMAIN_URL +  '/api/apodRoute',
         headers: { 
           'Content-Type': 'application/json'
         },
@@ -14,7 +14,7 @@ const  apodAPITask = ()=>{
         
     axios(config)
     .then(function (response) {
-        console.log("job done");
+        console.log("job done",response.data);
     })
     .catch(function (error) {
         console.log(error);
@@ -22,6 +22,7 @@ const  apodAPITask = ()=>{
 
 }
 
-module.exports = apodAPITask
+module.exports = { apodAPITask}
+
 
 
